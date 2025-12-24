@@ -5,7 +5,7 @@
 | Scripts Name | Description                       |
 |--------------|-----------------------------------|
 | `clear_session.screen.sh` | Clear all or selected existing screen sessions |
-| `slam.screen.sh` | Automatically start several sessions as lidar, tarkbot and slam |
+| `slam.screen.sh` | Automatically start several sessions as lidar, tarkbot, slam and gridmapper |
 
 ```sh
 # Start a new screen session named <session_name>
