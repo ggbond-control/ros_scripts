@@ -17,10 +17,10 @@ sleep 8
 
 echo "Launch gridmapper in screen session [gridmapper]"
 screen -dmS gridmapper
-screen -x -S gridmapper -p 0 -X stuff "source ~/Workspace/algor_ws/install/setup.zsh && ros2 launch gridmapper gridmapper_launch.py localization_mode_en:=true rviz:=false use_gpu:=true\n"
+screen -x -S gridmapper -p 0 -X stuff "source ~/Workspace/algor_ws/install/setup.zsh && ros2 launch gridmapper local.launch.py rviz:=false\n"
 sleep 2
 
-echo "Use the following command to check odometry"
-echo "timeout 2 ros2 topic echo /odometry_gra_horizon | grep posi -A3"
-
 echo "All screen sessions launched"
+echo "=================================================="
+echo "Plz use the following command to check odometry!!!"
+echo "ros2 topic echo /odometry_gra_horizon | grep posi -A3"
