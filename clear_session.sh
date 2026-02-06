@@ -33,20 +33,22 @@ read input
 if [ "$input" = "0" ]; then
     screen -ls | grep -E '(Detached|Attached)' | awk '{print $1}' | while read session; do
         echo "Deleting session: $session"
+        screen -S "$session" -p 0 -X stuff "^C"
+        sleep 1
         screen -S "$session" -X quit
     done
-    sleep 5
     echo "All sessions deleted"
 else
     for num in $input; do
         if [ "$num" -ge 1 ] && [ "$num" -le "$total" ]; then
             eval "session=\$session_$num"
             echo "Deleting session: $session"
+            screen -S "$session" -p 0 -X stuff "^C"
+            sleep 1
             screen -S "$session" -X quit
         else
             echo "Invalid number: $num (valid: 1-$total)"
         fi
     done
-    sleep 5
     echo "Selected sessions deleted"
 fi
