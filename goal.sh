@@ -8,4 +8,4 @@ echo "Launch multi_map_navigate_to_pose action in screen session [$SESSION]"
 screen -dmS "$SESSION"
 sleep 1
 screen -x -S "$SESSION" -p 0 -X stuff "ros2 action send_goal /multi_map_navigate_to_pose nav2_msgs/action/NavigateToPose \"{
-pose: {header: {frame_id: 'company'},pose: {position: {x: 2.0, y: 3.0},orientation: {z: 0.0, w: 1.0}}}}\"\n"
+pose: {header: {frame_id: 'company'},pose: {position: {x: 31.5, y: 20.2},orientation: {z: 0.0, w: 1.0}}}}\"\n"
