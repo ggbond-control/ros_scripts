@@ -57,3 +57,12 @@ screen -r <session_name>
 - `Ctrl+A, 然后 K`: 杀死当前会话。
 - `Ctrl+A, 然后 [`: 进入复制/滚动模式（可使用鼠标滚轮或方向键上下滚动查看日志）。
 - `Ctrl+C`: 终止当前会话中正在运行的进程。
+
+## 电机驱动脚本
+
+### 启动
+```sh
+# 以 car+map 模式启动所有导航模块
+./motor.sh
+# 当前已将该脚本加入系统自启动服务，由lcm-motor-bridge.service维护，重启该服务命令
+sudo systemctl restart lcm-motor-bridge.service
