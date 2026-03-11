@@ -42,6 +42,31 @@ load_config() {
                 "5 | local   | 局部规划 | ros2 launch local_planner local_planner.launch.py use_sim_time:=false start_rviz:=false                                                                               | /localPlanner /pathFollower"
             )
             ;;
+        "dog+map+floor")
+            CONFIG=(
+                "2 | livox   | 雷达驱动 | ros2 launch livox_ros_driver2 msg_MID360_launch.py                                                                                                                    | /livox_lidar_publisher"
+                "3 | slam    | 定位算法 | ros2 launch faster_lio slam.launch.py relocal:=true prior_dir:=park                                                                                                   | /laser_mapping"
+                "4 | terrain | 地形感知 | ros2 launch gridmapper local.launch.py rviz:=false                                                                                                                    | /gridmapper_node"
+                "5 | local   | 局部规划 | ros2 launch local_planner local_planner.launch.py use_sim_time:=false start_rviz:=false                                                                               | /localPlanner /pathFollower"
+                "6 | global  | 全局规划 | ros2 launch multi_map_nav multi_map_nav.launch.py initial_map:=park use_fake_cmdvel:=true params_file:=new_local                                                      | /planner_server /controller_server"
+            )
+            ;;
+        "dog+map+zju")
+            CONFIG=(
+                "2 | livox   | 雷达驱动 | ros2 launch livox_ros_driver2 msg_MID360_launch.py                                                                                                                    | /livox_lidar_publisher"
+                "3 | slam    | 定位算法 | ros2 launch faster_lio slam.launch.py relocal:=true prior_dir:=zju1                                                                                                   | /laser_mapping"
+                "4 | terrain | 地形感知 | ros2 launch gridmapper local.launch.py rviz:=false                                                                                                                    | /gridmapper_node"
+                "5 | local   | 局部规划 | ros2 launch local_planner local_planner.launch.py use_sim_time:=false start_rviz:=false                                                                               | /localPlanner /pathFollower"
+                "6 | global  | 全局规划 | ros2 launch multi_map_nav multi_map_nav.launch.py initial_map:=zju1 map_connections_file:=company use_fake_cmdvel:=true params_file:=new_local use_sim_time:=false    | /planner_server /controller_server"
+            )
+            ;;
+        "slam")
+            CONFIG=(
+                "2 | livox   | 雷达驱动 | ros2 launch livox_ros_driver2 msg_MID360_launch.py                                                                                                                    | /livox_lidar_publisher"
+                "3 | slam    | 定位算法 | ros2 launch faster_lio slam.launch.py relocal:=true prior_dir:=company                                                                                                | /laser_mapping"
+                "4 | terrain | 地形感知 | ros2 launch gridmapper local.launch.py rviz:=false                                                                                                                    | /gridmapper_node"
+            )
+            ;;
         *)
             echo -e "\033[31m错误: 无效的配置模式 '$mode'\033[0m"
             exit 1
@@ -132,7 +157,7 @@ show_menu() {
 }
 
 wait_nodes() {
-    local name=$1 nodes=$2 timeout=20
+    local name=$1 nodes=$2 timeout=10
     echo -n "[$name] 验证节点启动..."
     for ((i=0; i<timeout; i++)); do
         local cur=$(ros2 node list 2>/dev/null)

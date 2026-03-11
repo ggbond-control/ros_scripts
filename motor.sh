@@ -6,10 +6,12 @@ set -e   # 命令失败立即退出（部分地方会用 || true 绕过）
 # ────────────────────────────────────────────────
 # 辅助函数：等待特定 ROS2 节点出现 / 消失
 # ────────────────────────────────────────────────
+# source /opt/ros/jazzy/setup.zsh
+# source /home/cat/jazzy_ws/install/setup.zsh
 
 wait_node_up() {
     local node="/lcm_motor_bridge"
-    local timeout=5
+    local timeout=20
     local interval=0.8
 
     echo -n "[motor] 等待节点 ${node} 出现 "
@@ -29,7 +31,7 @@ wait_node_up() {
 
 wait_node_down() {
     local node="/lcm_motor_bridge"
-    local timeout=5
+    local timeout=10
     local interval=0.8
 
     echo -n "[motor] 等待节点 ${node} 消失 "
@@ -114,4 +116,23 @@ else
     exit 1
 fi
 
-exit 0
+echo "启动监控循环（每 5 秒检查一次节点是否存在）..."
+
+while true; do
+    if ros2 node list 2>/dev/null | grep -Fx "/lcm_motor_bridge" >/dev/null; then
+        # 节点存在 → 正常，什么都不打印（或可以加 debug 日志）
+        :
+    else
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] 警告：/lcm_motor_bridge 节点消失了！"
+        # 可选：在这里加自动重启逻辑，例如：
+        echo "重启..."
+        exit 1
+        # screen -S motor -X quit || true
+        # sleep 2
+        # screen -dmS motor
+        # screen -S motor -p 0 -X stuff "ros2 launch unitree_motor_hw motor_bridge.launch.py\n"
+        # wait_node_up || echo "自动重启失败"
+    fi
+    
+    sleep 5
+done
