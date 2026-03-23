@@ -25,6 +25,14 @@ load_config() {
                 "5 | local   | 局部规划 | ros2 launch local_planner local_planner.launch.py use_sim_time:=false start_rviz:=false                                                                               | /localPlanner /pathFollower"
             )
             ;;
+        "car-uwb")
+            CONFIG=(
+                "1 | tarkbot | 底盘驱动 | ros2 launch tarkbot_robot robot.launch.py pub_odom_tf:=false                                                                                                          | /tarkbot_robot"
+                "2 | livox   | 雷达驱动 | ros2 launch livox_ros_driver2 msg_MID360_launch.py                                                                                                                    | /livox_lidar_publisher"
+                "3 | slam    | 定位算法 | ros2 launch faster_lio slam.launch.py relocal:=true prior_dir:=company                                                                                                                                 | /laser_mapping"
+                "4 | terrain | 地形感知 | ros2 launch gridmapper local.launch.py rviz:=false                                                                                                                    | /gridmapper_node"
+            )
+            ;;
         "dog+map")
             CONFIG=(
                 "2 | livox   | 雷达驱动 | ros2 launch livox_ros_driver2 msg_MID360_launch.py                                                                                                                    | /livox_lidar_publisher"
@@ -40,6 +48,16 @@ load_config() {
                 "3 | slam    | 定位算法 | ros2 launch faster_lio slam.launch.py                                                                                                                                 | /laser_mapping"
                 "4 | terrain | 地形感知 | ros2 launch gridmapper local.launch.py rviz:=false                                                                                                                    | /gridmapper_node"
                 "5 | local   | 局部规划 | ros2 launch local_planner local_planner.launch.py use_sim_time:=false start_rviz:=false                                                                               | /localPlanner /pathFollower"
+            )
+            ;;
+        "car+map+fire")
+            CONFIG=(
+                "1 | tarkbot | 底盘驱动 | ros2 launch tarkbot_robot robot.launch.py pub_odom_tf:=false                                                                                                          | /tarkbot_robot"
+                "2 | livox   | 雷达驱动 | ros2 launch livox_ros_driver2 msg_MID360_launch.py                                                                                                                    | /livox_lidar_publisher"
+                "3 | slam    | 定位算法 | ros2 launch faster_lio slam.launch.py relocal:=true prior_dir:=fire                                                                                                | /laser_mapping"
+                "4 | terrain | 地形感知 | ros2 launch gridmapper local.launch.py rviz:=false                                                                                                                    | /gridmapper_node"
+                "5 | local   | 局部规划 | ros2 launch local_planner local_planner.launch.py use_sim_time:=false start_rviz:=false debug_info:=true                                                              | /localPlanner /pathFollower"
+                "6 | global  | 全局规划 | ros2 launch multi_map_nav multi_map_nav.launch.py initial_map:=fire map_connections_file:=fire use_fake_cmdvel:=true params_file:=new_local use_sim_time:=false | /planner_server /controller_server"
             )
             ;;
         "dog+map+floor")
