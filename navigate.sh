@@ -77,6 +77,15 @@ load_config() {
                 "5 | local   | 局部规划 | ros2 launch local_planner local_planner.launch.py use_sim_time:=false start_rviz:=false                                                                               | /localPlanner /pathFollower"
                 "6 | global  | 全局规划 | ros2 launch multi_map_nav multi_map_nav.launch.py initial_map:=zju1 map_connections_file:=company use_fake_cmdvel:=true params_file:=new_local use_sim_time:=false    | /planner_server /controller_server"
             )
+	    ;;
+        "x30-zju20")
+            CONFIG=(
+                "2 | livox   | 雷达驱动 | ros2 launch livox_ros_driver2 msg_multi_MID360_launch.py                                                                                                              | /livox_lidar_publisher"
+                "3 | slam    | 定位算法 | ros2 launch faster_lio slam.launch.py relocal:=true prior_dir:=zju20                                                                                                | /laser_mapping"
+                "4 | terrain | 地形感知 | ros2 launch gridmapper local.launch.py rviz:=false                                                                                                                    | /gridmapper_node"
+                "5 | local   | 局部规划 | ros2 launch local_planner local_planner.launch.py use_sim_time:=false start_rviz:=false                                                                               | /localPlanner /pathFollower"
+                "6 | global  | 全局规划 | ros2 launch multi_map_nav multi_map_nav.launch.py initial_map:=zju20 map_connections_file:=zju20 use_fake_cmdvel:=true params_file:=new_local use_sim_time:=false patrol_loops:=1 | /planner_server /controller_server"
+            )
             ;;
         "slam")
             CONFIG=(
